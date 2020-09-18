@@ -1,6 +1,0 @@
-Syntax for coding event in Mac Calendar App:
-- Type: #<type_label> in title
-    - Appears before actual title
-    - Ex. #qa Q&A with Industry Sponsors
-- Link: url in the description
-    - Used to route to the site's event based on filters

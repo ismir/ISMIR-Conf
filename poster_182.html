@@ -1,0 +1,492 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    
+
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <link rel="icon" type="image/png" sizes="32x32" href="static/images/ismir_tab_icon.png">
+
+    <link rel="stylesheet" href="static/css/main.css" />
+    <link rel="stylesheet" href="static/css/custom.css" />
+    <link rel="stylesheet" href="static/css/lazy_load.css" />
+    <link rel="stylesheet" href="static/css/typeahead.css" />
+
+    <!-- <link rel="stylesheet" href="https://gitcdn.xyz/repo/wingkwong/jquery-chameleon/master/src/chameleon.min.css"> -->
+
+    <!-- External Javascript libs  -->
+    <script src="https://cdn.jsdelivr.net/npm/d3@5/dist/d3.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.3/dist/handlebars.min.js" integrity="sha256-/PJBs6QWvXijOFIX04kZpLb6ZtSQckdOIavLWKKOgXU=" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha256-WqU1JavFxSAMcLP2WIOI+GB2zWmShMI82mTpLDcqFUg=" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/min/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/moment-timezone@0.5.28/builds/moment-timezone-with-data.min.js" integrity="sha256-IWYg4uIC8/erItNXYvLtyYHioRi2zT1TFva8qaAU/ww=" crossorigin="anonymous"></script>
+    <!-- <script src="static/js/chameleon.js"></script> -->
+
+
+    <!-- Library libs -->
+    <script src="static/js/typeahead.bundle.js"></script>
+
+    
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha256-YLGeXaapI0/5IgZopewRJcFXomhRMlYYjugPLSyNjTY=" crossorigin="anonymous">
+
+    <!-- External Fonts (no google for china) -->
+    <link
+      href="static/css/Lato.css"
+      rel="stylesheet"
+    />
+    <link href="static/css/Exo.css" rel="stylesheet" />
+    <link
+      href="static/css/Cuprum.css"
+      rel="stylesheet"
+    />
+    <link
+      href="static/css/Ambiant.css"
+      rel="stylesheet"
+    />
+    <!-- <link href="static/css/chameleon.css" rel="stylesheet"/> -->
+    <title>ISMIR 2020: The MIDI Degradation Toolkit: Symbolic Music Augmentation and Correction</title>
+    
+<meta name="citation_title" content="The MIDI Degradation Toolkit: Symbolic Music Augmentation and Correction" />
+
+<meta name="citation_author" content="Andrew McLeod" />
+
+<meta name="citation_author" content="James Owers" />
+
+<meta name="citation_author" content="Kazuyoshi Yoshii" />
+
+<meta name="citation_publication_date" content="11-15 October 2020" />
+<meta name="citation_conference_title" content="Ismir 2020 Virtual Conference" />
+<meta name="citation_inbook_title" content="Proceedings of the First MiniCon Conference" />
+<meta name="citation_abstract" content="In this paper, we introduce the MIDI Degradation Toolkit (MDTK), containing functions which take as input a musical excerpt (a set of notes with pitch, onset time, and duration), and return a ``degraded&#39;&#39; version of that excerpt with some error (or errors) introduced. Using the toolkit, we create the Altered and Corrupted MIDI Excerpts dataset version 1.0 (ACME v1.0), and propose four tasks of increasing difficulty to detect, classify, locate, and correct the degradations. We hypothesize that models trained for these tasks can be useful in (for example) improving automatic music transcription performance if applied as a post-processing step. To that end, MDTK includes a script that measures the distribution of different types of errors in a transcription, and creates a degraded dataset with similar properties. MDTK&#39;s degradations can also be applied dynamically to a dataset during training (with or without the above script), generating novel degraded excerpts each epoch. MDTK could also be used to test the robustness of any system designed to take MIDI (or similar) data as input (e.g. systems designed for voice separation, metrical alignment, or chord detection) to such transcription errors or otherwise noisy data. The toolkit and dataset are both publicly available online, and we encourage contribution and feedback from the community." />
+
+<meta name="citation_keywords" content="Evaluation, datasets, and reproducibility" />
+
+<meta name="citation_keywords" content="Novel datasets and use cases" />
+
+<meta name="citation_keywords" content="MIR fundamentals and methodology" />
+
+<meta name="citation_keywords" content="Symbolic music processing" />
+
+<meta name="citation_keywords" content="MIR tasks" />
+
+<meta name="citation_keywords" content="Music transcription and annotation" />
+
+<meta name="citation_pdf_url" content="" />
+
+
+  </head>
+
+  <body>
+    <!-- NAV -->
+    
+    <nav
+      class="navbar sticky-top navbar-expand-lg navbar-light mr-auto"
+      id="main-nav"
+    >
+      <div class="container">
+        <a class="navbar-brand" href="index.html">
+          <img
+             class="logo" src="static/images/ISMIR-logo_Horizontal - Acronym only_RGB.jpg"
+             height="auto"
+             width="200px"
+          />
+        </a>
+        
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+          class="collapse navbar-collapse text-right flex-grow-1"
+          id="navbarNav"
+        >
+          <ul class="navbar-nav ml-auto">
+            
+            <li class="nav-item ">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            
+            <li class="nav-item ">
+              <a class="nav-link" href="calendar.html">Schedule</a>
+            </li>
+            
+            <li class="nav-item ">
+              <a class="nav-link" href="papers.html">Papers</a>
+            </li>
+            
+            <li class="nav-item ">
+              <a class="nav-link" href="workshops.html">Workshops</a>
+            </li>
+            
+            <li class="nav-item ">
+              <a class="nav-link" href="music.html">Music</a>
+            </li>
+            
+            <li class="nav-item ">
+              <a class="nav-link" href="chat.html">Social</a>
+            </li>
+            
+            <li class="nav-item ">
+              <a class="nav-link" href="about.html">Help</a>
+            </li>
+            
+          </ul>
+        </div>
+      </div>
+    </nav>
+    
+
+    
+    <!-- User Overrides -->
+     
+
+    <div class="container">
+      <!-- Tabs -->
+      <div class="tabs">
+         
+      </div>
+      <!-- Content -->
+      <div class="content">
+        
+
+<!-- Title -->
+<div class="pp-card m-3" style="">
+  <div class="card-header">
+    <h2 class="card-title main-title text-center" style="">
+      The MIDI Degradation Toolkit: Symbolic Music Augmentation and Correction
+    </h2>
+    <h3 class="card-subtitle mb-2 text-muted text-center">
+      
+      <a href="papers.html?filter=authors&search=Andrew McLeod" class="text-muted"
+        >Andrew McLeod</a
+      >,
+      
+      <a href="papers.html?filter=authors&search=James Owers" class="text-muted"
+        >James Owers</a
+      >,
+      
+      <a href="papers.html?filter=authors&search=Kazuyoshi Yoshii" class="text-muted"
+        >Kazuyoshi Yoshii</a
+      >
+      
+    </h3>
+    <p class="card-text text-center">
+      <span class="">Keywords:</span>
+      
+      <a
+        href="papers.html?filter=keywords&search=Evaluation, datasets, and reproducibility"
+        class="text-secondary text-decoration-none"
+        >Evaluation, datasets, and reproducibility</a
+      >,
+      
+      <a
+        href="papers.html?filter=keywords&search=Novel datasets and use cases"
+        class="text-secondary text-decoration-none"
+        >Novel datasets and use cases</a
+      >,
+      
+      <a
+        href="papers.html?filter=keywords&search=MIR fundamentals and methodology"
+        class="text-secondary text-decoration-none"
+        >MIR fundamentals and methodology</a
+      >,
+      
+      <a
+        href="papers.html?filter=keywords&search=Symbolic music processing"
+        class="text-secondary text-decoration-none"
+        >Symbolic music processing</a
+      >,
+      
+      <a
+        href="papers.html?filter=keywords&search=MIR tasks"
+        class="text-secondary text-decoration-none"
+        >MIR tasks</a
+      >,
+      
+      <a
+        href="papers.html?filter=keywords&search=Music transcription and annotation"
+        class="text-secondary text-decoration-none"
+        >Music transcription and annotation</a
+      >
+      
+    </p>
+    <div class="text-center p-3">
+      <a class="card-link" data-toggle="collapse" role="button" href="#details">
+        Abstract
+      </a>
+      <a class="card-link" target="_blank" href="">
+        Paper
+      </a>
+      
+    </div>
+  </div>
+</div>
+<div id="details" class="pp-card m-3 collapse">
+  <div class="card-body">
+    <div class="card-text">
+      <div id="abstractExample">
+        <span class="font-weight-bold">Abstract:</span>
+        In this paper, we introduce the MIDI Degradation Toolkit (MDTK), containing functions which take as input a musical excerpt (a set of notes with pitch, onset time, and duration), and return a ``degraded&#39;&#39; version of that excerpt with some error (or errors) introduced. Using the toolkit, we create the Altered and Corrupted MIDI Excerpts dataset version 1.0 (ACME v1.0), and propose four tasks of increasing difficulty to detect, classify, locate, and correct the degradations. We hypothesize that models trained for these tasks can be useful in (for example) improving automatic music transcription performance if applied as a post-processing step. To that end, MDTK includes a script that measures the distribution of different types of errors in a transcription, and creates a degraded dataset with similar properties. MDTK&#39;s degradations can also be applied dynamically to a dataset during training (with or without the above script), generating novel degraded excerpts each epoch. MDTK could also be used to test the robustness of any system designed to take MIDI (or similar) data as input (e.g. systems designed for voice separation, metrical alignment, or chord detection) to such transcription errors or otherwise noisy data. The toolkit and dataset are both publicly available online, and we encourage contribution and feedback from the community.
+      </div>
+    </div>
+    <p></p>
+  </div>
+</div>
+
+<h5 style="color: red;">
+  Add content for posters. This could be a video, embedded pdf, chat room ....
+</h5>
+
+<div class="border-top my-3"></div>
+<div class="row p-4" id="faq">
+  <div class="col-12 bd-content">
+    <h2 class="text-center">Example Poster</h2>
+  </div>
+</div>
+<iframe src = "static/ViewerJS/index.html#../images/GLTR_poster.pdf" width='100%' height='500px' allowfullscreen webkitallowfullscreen></iframe> 
+<!-- <object data="/static/images/Evan_Savage_Resume_2020.pdf" type="application/pdf" style="min-height:100vh;width:100%"></object> -->
+<!-- <object data="GLTR_poster.pdf" type="application/pdf" style="min-height:100vh;width:100%"></object> -->
+
+<div class="border-top my-3"></div>
+<div class="row p-4" id="faq">
+  <div class="col-12 bd-content">
+    <h2 class="text-center">Example Video Stream</h2>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.3.200/build/pdf.min.js"></script>
+<script src="static/js/pdf_render.js"></script>
+<script>
+    // $(document).ready(() => {
+    //     // render first page of PDF to div
+    //     // PDF name can be bound to variable -- e.g. paper.content.poster_link
+    //     initPDFViewer("GLTR_poster.pdf",'#pdf_view');
+    // })
+    // var thePdf = null;
+    // var scale = 1;
+    //
+    // PDFJS.getDocument(url).promise.then(function(pdf) {
+    //     thePdf = pdf;
+    //     viewer = document.getElementById('pdf-viewer');
+    //
+    //     for(page = 1; page <= pdf.numPages; page++) {
+    //       canvas = document.createElement("canvas");
+    //       canvas.className = 'pdf-page-canvas';
+    //       viewer.appendChild(canvas);
+    //       renderPage(page, canvas);
+    //     }
+    // });
+    //
+    // function renderPage(pageNumber, canvas) {
+    //     thePdf.getPage(pageNumber).then(function(page) {
+    //       viewport = page.getViewport(scale);
+    //       canvas.height = viewport.height;
+    //       canvas.width = viewport.width;
+    //       page.render({canvasContext: canvas.getContext('2d'), viewport: viewport});
+    // });
+    // }
+
+    // $(document).ready(function(){
+    //   $('.chameleon').chameleon({
+		// 		 responsive: true,
+		// 		 showMarkers: true,
+		// 		 showCarousel: true,
+    //          showDownloadPanel: true,
+    //      	 chameleonContext: {
+		// 		     "title": "The MIDI Degradation Toolkit: Symbolic Music Augmentation and Correction",
+    //      		  "html5Setup" :{
+    //      		      "sources": [
+    //      		         {
+    //      		            "file": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+    //      		            "type": "video/mp4"
+    //      		         }
+    //      		      ]
+    //      		   },
+    //      		   "download": {
+    //      		   		"slides": {
+    //      		   			"url": "https://github.com/wingkwong/jquery-chameleon/archive/1.3.0.zip",
+    //      		   			"title": "Download Slides"
+    //      		   		},
+    //      		   		"video": {
+    //      		   			"url": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+    //      		   			"title": "Download Video"
+    //      		   		},
+    //      		   		"transcript": {
+    //      		   			"url": "https://raw.githubusercontent.com/wingkwong/jquery-chameleon/1.3.0/README.md",
+    //      		   			"title": "Download Transcript"
+    //      		   		}
+    //      		   },
+    //      		   "slides":[
+    //      		      {
+    //      		         "time":"00:00:00",
+    //      		         "img":"https://dummyimage.com/600x400/000/fff&text=1",
+    //      		         "title": "Lorem ipsum dolor sit amet",
+    //      		         "alt": "Dummy alt text"
+    //      		      },
+    //      		      {
+    //      		         "time":"00:00:30",
+    //      					"title": "consectetur adipiscing elit",
+    //      		         "img":"https://dummyimage.com/600x400/000/fff&text=2"
+    //      		      },
+    //      		      {
+    //      		         "time":"00:00:45",
+    //      					"title": "ed do eiusmod tempor incididunt ",
+    //      		         "img":"https://dummyimage.com/600x400/000/fff&text=3"
+    //      		      },
+    //      		      {
+    //      		         "time":"00:01:08",
+    //      					"title": "abore et dolore magna aliqua",
+    //      		         "img":"https://dummyimage.com/600x400/000/fff&text=4"
+    //      		      },
+    //      		      {
+    //      		         "time":"00:02:09",
+    //      					"title": "Quis autem vel eum iure reprehenderit",
+    //      		         "img":"https://dummyimage.com/600x400/000/fff&text=5"
+    //      		      },
+    //      		      {
+    //      		         "time":"00:03:12",
+    //      					"title": "qui dolorem ipsum quia dolo",
+    //      		         "img":"https://dummyimage.com/600x400/000/fff&text=6"
+    //      		      },
+    //      		      {
+    //      		         "time":"00:03:45",
+    //      					"title": "quasi architecto",
+    //      		         "img":"https://dummyimage.com/600x400/000/fff&text=7"
+    //      		      },
+    //      		      {
+    //      		         "time":"00:04:18",
+    //      					"title": "Sed ut perspiciatis unde",
+    //      		         "img":"https://dummyimage.com/600x400/000/fff&text=8"
+    //      		      },
+    //      		      {
+    //      		         "time":"00:05:20",
+    //      					"title": "At vero eos et accusamus et iusto odio",
+    //      		         "img":"https://dummyimage.com/600x400/000/fff&text=9"
+    //      		      },
+    //      		      {
+    //      		         "time":"00:05:41",
+    //      					"title": "Lorem ipsum dolor sit amet",
+    //      		         "img":"https://dummyimage.com/600x400/000/fff&text=10"
+    //      		      },
+    //      		      {
+    //      		         "time":"00:06:23",
+    //      					"title": "Ut enim ad minima veniam",
+    //      		         "img":"https://dummyimage.com/600x400/000/fff&text=11"
+    //      		      },
+    //      		      {
+    //      		         "time":"00:06:54",
+    //      					"title": "oluptate velit esse qu",
+    //      		         "img":"https://dummyimage.com/600x400/000/fff&text=12"
+    //      		      },
+    //      		      {
+    //      		         "time":"00:07:25",
+    //      					"title": "esse cillum dolore eu",
+    //      		         "img":"https://dummyimage.com/600x400/000/fff&text=13"
+    //      		      },
+    //      		      {
+    //      		         "time":"00:07:46",
+    //      					"title": "sunt in culpa qui o",
+    //      		         "img":"https://dummyimage.com/600x400/000/fff&text=14"
+    //      		      },
+    //      		      {
+    //      		         "time":"00:08:28",
+    //      					"title": "tempor incididunt ut",
+    //      		         "img":"https://dummyimage.com/600x400/000/fff&text=15"
+    //      		      },
+    //      		      {
+    //      		         "time":"00:09:29",
+    //      					"title": "Lorem ipsum dolor sit amet",
+    //      		         "img":"https://dummyimage.com/600x400/000/fff&text=16"
+    //      		      }
+    //      		   ]
+    //      		}
+    //      	});
+    //      });
+
+</script>
+
+
+
+
+
+
+
+      </div>
+    </div>
+    
+    
+
+    <!-- Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "UA-");
+    </script>
+
+    <!-- Footer -->
+    <footer class="footer bg-light p-4">
+      <div class="container">
+        <p class="float-right"><a href="#">Back to Top</a></p>
+        <p class="text-center">© 2020 MiniConf Organization Committee</p>
+      </div>
+    </footer>
+
+    <!-- Code for hash tags -->
+    <script type="text/javascript">
+      $(document).ready(function () {
+        if (location.hash !== "") {
+          $('a[href="' + location.hash + '"]').tab("show");
+        }
+
+        $("a[data-toggle='tab']").on("shown.bs.tab", function (e) {
+          var hash = $(e.target).attr("href");
+          if (hash.substr(0, 1) == "#") {
+            var position = $(window).scrollTop();
+            location.replace("#" + hash.substr(1));
+            $(window).scrollTop(position);
+          }
+        });
+      });
+    </script>
+    <script src="static/js/lazy_load.js"></script>
+    
+  </body>
+</html>
